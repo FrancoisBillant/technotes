@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Technical Notes</title>
+ <link href="http://username.github.io/atom.xml" rel="self"/>
+ <link href="http://username.github.io"/>
+ <updated>2015-08-02T15:27:34+00:00</updated>
+ <id>http://username.github.io</id>
+ <author>
+   <name>Francois Billant</name>
+   <email>fbillant@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Playing with Ansible, Iptables, docker and KVM</title>
+   <link href="http://username.github.io/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm"/>
+   <updated>2015-08-01T18:55:56+00:00</updated>
+   <id>http://username.github.io/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Create a blog hosted on Github with Jekyll</title>
+   <link href="http://username.github.io/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll"/>
+   <updated>2015-08-01T00:00:00+00:00</updated>
+   <id>http://username.github.io/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll</id>
+   <content type="html">
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;The idea here is to create a blog entirely hosted on github.&lt;/p&gt;
+
+&lt;p&gt;To do this I will use:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Github pages to version and host the blog: &lt;a href=&quot;https://pages.github.com/&quot;&gt;https://pages.github.com/&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jekyll and Jekyll-Bootstrap to create and build the blog: &lt;a href=&quot;http://jekyllbootstrap.com/&quot;&gt;http://jekyllbootstrap.com/&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;a github account&lt;/li&gt;
+  &lt;li&gt;a place to install Jekyll, be it your laptop, a VM or container. You will need to have internet access to be able to push to github&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;install&quot;&gt;Install&lt;/h2&gt;
+&lt;p&gt;I made available on the docker hub a container including jekyll, git and vim, you can find it here: &lt;a href=&quot;https://registry.hub.docker.com/u/francois/jekyll/&quot;&gt;https://registry.hub.docker.com/u/francois/jekyll/&lt;/a&gt; &lt;br /&gt;
+Just run it with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;docker run -dti --name jekyll francois/jekyll:latest /bin/bash   
+docker attach jekyll
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and you’re good to go :)&lt;/p&gt;
+
+&lt;p&gt;Otherwise, look at the Dockerfile for the install process ;) &lt;a href=&quot;https://github.com/francois-docker/jekyll/blob/master/Dockerfile&quot;&gt;https://github.com/francois-docker/jekyll/blob/master/Dockerfile&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;configuration&quot;&gt;Configuration&lt;/h2&gt;
+
+&lt;h3 id=&quot;github&quot;&gt;Github&lt;/h3&gt;
+
+&lt;p&gt;Create a new repository with whatever name you’d like, ie “myblog” &lt;br /&gt;
+Go to your workspace (container, vm, laptop…)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#Clone the skeleton of the blog   
+git clone https://github.com/plusjade/jekyll-bootstrap.git myblog   
+cd myblog   
+#Change the origin   
+git remote set-url origin git@github.com:USERNAME/myblog.git   
+#Create an orphan branch   
+git checkout --orphan gh-pages
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;blog&quot;&gt;Blog&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Cleanup&lt;/p&gt;
+
+    &lt;p&gt;First, remove examples posts from skeleton&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  rm -Rf _posts/core-samples/
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Custom domain&lt;/p&gt;
+
+    &lt;p&gt;TODO&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Config&lt;/p&gt;
+
+    &lt;p&gt;Edit the _config.yml file:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  title : Technical Notes
+  tagline: To keep track about things IT related...
+  author :
+    name : somename
+    email : somename@somemail.tld
+    github : someusername
+    twitter : someusername
+    feedburner : feedname        
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;Comment and fill as suited for your configuration.  &lt;br /&gt;
+  For example, to use disqus as comment solution:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  comments :
+    provider : disqus
+    disqus :
+      short_name : technotesbillantbzh
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Homepage&lt;/p&gt;
+
+    &lt;p&gt;Let’s make the homepage more blog like by displaying list of posts. &lt;br /&gt;
+  Replace the default index.md by index.html containing the following:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  ---
+  layout: default
+  ---
+    
+    
+  {% for post in site.posts limit:20 %}
+      &amp;lt;div class=&quot;blog-index&quot;&amp;gt;
+        {% assign post = site.posts.first %}
+        {% assign content = post.content %}
+        {% include post_detail.html %}
+      &amp;lt;/div&amp;gt;
+  {% endfor %}
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;Then create the _include/post_detail.html file:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  &amp;lt;h2 class=&quot;entry-title&quot;&amp;gt;
+  {% if page.title %}
+      &amp;lt;a href=&quot;{{ root_url }}{{ page.url }}&quot;&amp;gt;{{ page.title }}&amp;lt;/a&amp;gt;
+  {% endif %}
+  {% if post.title %}
+      &amp;lt;a href=&quot;{{ root_url }}{{ post.url }}&quot;&amp;gt;{{ post.title }}&amp;lt;/a&amp;gt;
+  {% endif %}
+  &amp;lt;/h2&amp;gt;
+  &amp;lt;div class=&quot;entry-content&quot;&amp;gt;{{ content }}&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create a post&lt;/p&gt;
+
+    &lt;p&gt;TODO&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Publish&lt;/p&gt;
+
+    &lt;p&gt;TODO&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;usage&quot;&gt;Usage&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create a post: &lt;br /&gt;
+  TODO&lt;/li&gt;
+  &lt;li&gt;Create a Draft:  &lt;br /&gt;
+  TODO&lt;/li&gt;
+  &lt;li&gt;Publish a draft without plugin T_T: &lt;br /&gt;
+  TODO&lt;/li&gt;
+  &lt;li&gt;Change Theme:  &lt;br /&gt;
+  TODO&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;sources:  &lt;br /&gt;
+&lt;a href=&quot;http://jekyllbootstrap.com/usage/jekyll-quick-start.html&quot;&gt;http://jekyllbootstrap.com/usage/jekyll-quick-start.html&lt;/a&gt;  &lt;br /&gt;
+&lt;a href=&quot;https://gist.github.com/nimbupani/1421828#file-post_detail-html&quot;&gt;https://gist.github.com/nimbupani/1421828#file-post_detail-html&lt;/a&gt; &lt;br /&gt;
+&lt;a href=&quot;https://truongtx.me/2012/12/27/jekyll-create-a-list-of-lastest-posts/&quot;&gt;https://truongtx.me/2012/12/27/jekyll-create-a-list-of-lastest-posts/&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ 
+</feed>
