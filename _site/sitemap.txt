@@ -1,13 +1,12 @@
 
-http://username.github.io/archive.html
-http://username.github.io/atom.xml
-http://username.github.io/categories.html
-http://username.github.io/index.html
-http://username.github.io/index.md.bak
-http://username.github.io/pages.html
-http://username.github.io/rss.xml
-http://username.github.io/sitemap.txt
-http://username.github.io/tags.html
+https://francoisbillant.github.io/technotes/archive.html
+https://francoisbillant.github.io/technotes/atom.xml
+https://francoisbillant.github.io/technotes/categories.html
+https://francoisbillant.github.io/technotes/index.html
+https://francoisbillant.github.io/technotes/pages.html
+https://francoisbillant.github.io/technotes/rss.xml
+https://francoisbillant.github.io/technotes/sitemap.txt
+https://francoisbillant.github.io/technotes/tags.html
 
-http://username.github.io/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm
-http://username.github.io/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll
+https://francoisbillant.github.io/technotes/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm
+https://francoisbillant.github.io/technotes/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll

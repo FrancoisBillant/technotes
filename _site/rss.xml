@@ -3,10 +3,10 @@
 <channel>
         <title>Technical Notes</title>
         <description>Technical Notes - Francois Billant</description>
-        <link>http://username.github.io</link>
-        <atom:link href="http://username.github.io/rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Sun, 02 Aug 2015 15:27:34 +0000</lastBuildDate>
-        <pubDate>Sun, 02 Aug 2015 15:27:34 +0000</pubDate>
+        <link>https://francoisbillant.github.io/technotes</link>
+        <atom:link href="https://francoisbillant.github.io/technotes/rss.xml" rel="self" type="application/rss+xml" />
+        <lastBuildDate>Sun, 02 Aug 2015 18:50:32 +0000</lastBuildDate>
+        <pubDate>Sun, 02 Aug 2015 18:50:32 +0000</pubDate>
         <ttl>60</ttl>
 
 
@@ -14,8 +14,8 @@
                 <title>Playing with Ansible, Iptables, docker and KVM</title>
                 <description>
 </description>
-                <link>http://username.github.io/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</link>
-                <guid>http://username.github.io/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</guid>
+                <link>https://francoisbillant.github.io/technotes/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</link>
+                <guid>https://francoisbillant.github.io/technotes/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</guid>
                 <pubDate>Sat, 01 Aug 2015 18:55:56 +0000</pubDate>
         </item>
 
@@ -175,8 +175,8 @@ git checkout --orphan gh-pages
 &lt;a href=&quot;https://gist.github.com/nimbupani/1421828#file-post_detail-html&quot;&gt;https://gist.github.com/nimbupani/1421828#file-post_detail-html&lt;/a&gt; &lt;br /&gt;
 &lt;a href=&quot;https://truongtx.me/2012/12/27/jekyll-create-a-list-of-lastest-posts/&quot;&gt;https://truongtx.me/2012/12/27/jekyll-create-a-list-of-lastest-posts/&lt;/a&gt;&lt;/p&gt;
 </description>
-                <link>http://username.github.io/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll</link>
-                <guid>http://username.github.io/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll</guid>
+                <link>https://francoisbillant.github.io/technotes/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll</link>
+                <guid>https://francoisbillant.github.io/technotes/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll</guid>
                 <pubDate>Sat, 01 Aug 2015 00:00:00 +0000</pubDate>
         </item>
 
