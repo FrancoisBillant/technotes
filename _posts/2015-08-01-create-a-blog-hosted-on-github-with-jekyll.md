@@ -37,16 +37,23 @@ Otherwise, look at the Dockerfile for the install process ;) [https://github.com
 
 ###Github
 
-Create a new repository with whatever name you'd like, ie "myblog"   
-Go to your workspace (container, vm, laptop...)   
+- Create a new repository    
+    - If you want your site url to be: https://USERNAME.github.io:    
+        Create a repository called USERNAME.github.io where USERNAME is your github username.
 
-    #Clone the skeleton of the blog   
-    git clone https://github.com/plusjade/jekyll-bootstrap.git myblog   
-    cd myblog   
-    #Change the origin   
-    git remote set-url origin git@github.com:USERNAME/myblog.git   
-    #Create an orphan branch   
-    git checkout --orphan gh-pages
+    - If you want your site url to be https://USERNAME.github.io/PROJECT:    
+        Create a repository with whatever name you'd like, ie "myblog"   
+ 
+    - If you want to use your own domain name, you can use any of the previous methods
+- Go to your workspace (container, vm, laptop...)   
+
+        #Clone the skeleton of the blog   
+        git clone https://github.com/plusjade/jekyll-bootstrap.git myblog   
+        cd myblog   
+        #Change the origin   
+        git remote set-url origin git@github.com:USERNAME/myblog.git   
+        #Create an orphan branch   
+        git checkout --orphan gh-pages
 
 ###Blog
 
@@ -55,10 +62,31 @@ Go to your workspace (container, vm, laptop...)
     First, remove examples posts from skeleton   
 
         rm -Rf _posts/core-samples/
+        rm -f _drafts/*
 
 - Custom domain
 
-    TODO
+    - Case url type: https://USERNAME.github.io
+        - Your github repo is named USERNAME.github.io    
+        - Modify the _config.yml accordingly:    
+
+                   production_url : https://USERNAME.github.io 
+
+    - Case url type: https://USERNAME.github.io/REPO_NAME
+        - Your github repo is named REPO_NAME
+        - Modify the _config.yml accordingly:    
+
+                   production_url : https://USERNAME.github.io/REPO_NAME 
+                   BASE_PATH : https://USERNAME.github.io/REPO_NAME
+
+    - Case url type: https://yourblog.yourdomain.tld
+        - Your github repo is named REPO_NAME
+        - Modify the _config.yml accordingly:
+
+                   production_url : https://yourblog.yourdomain.tld
+        - Create a file called CNAME with a content like this:   
+            TODO
+
 
 - Config
 
@@ -107,10 +135,10 @@ Go to your workspace (container, vm, laptop...)
         {% raw %}
         <h2 class="entry-title">
         {% if page.title %}
-            <a href="{{ root_url }}{{ page.url }}">{{ page.title }}</a>
+            <a href="{{ BASE_PATH }}{{ page.url }}">{{ page.title }}</a>
         {% endif %}
         {% if post.title %}
-            <a href="{{ root_url }}{{ post.url }}">{{ post.title }}</a>
+            <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
         {% endif %}
         </h2>
         <div class="entry-content">{{ content }}</div>
@@ -118,23 +146,39 @@ Go to your workspace (container, vm, laptop...)
 
 - Create a post
 
-    TODO
+        rake2.1 post title="Create a blog hosted on Github with Jekyll"
 
 - Publish
 
-    TODO
+        git push origin gh-pages
 
 ##Usage
 
-- Create a post:   
-    TODO
-- Create a Draft:    
-    TODO
-- Publish a draft without plugin T_T:   
-    TODO
 - Change Theme:    
-    TODO
 
+        rake theme:switch name="twitter"
+
+- Create a post:   
+
+        rake2.1 post title="Create a blog hosted on Github with Jekyll"
+
+- Create a Draft:    
+
+        vi _DRAFTS/newdraft.md
+
+- Publish a draft without plugin T_T (because github pages do not support plugins):   
+
+        rake2.1 post title="newpost"   
+        cat _DRAFTS/draft_to_publish >> _POSTS/newpost.md   
+        rm  _DRAFTS/draft_to_publish   
+
+- See changes locally:
+
+        jekyll serve --host 0.0.0.0
+
+    - Also display drafts:
+
+            jekyll serve --host 0.0.0.0 --drafts
 
 sources:    
 [http://jekyllbootstrap.com/usage/jekyll-quick-start.html](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)    

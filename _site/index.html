@@ -168,17 +168,35 @@ docker attach jekyll
 
 <h3 id="github">Github</h3>
 
-<p>Create a new repository with whatever name you’d like, ie “myblog” <br />
-Go to your workspace (container, vm, laptop…)</p>
+<ul>
+  <li>Create a new repository
+    <ul>
+      <li>
+        <p>If you want your site url to be: https://USERNAME.github.io:  <br />
+  Create a repository called USERNAME.github.io where USERNAME is your github username.</p>
+      </li>
+      <li>
+        <p>If you want your site url to be https://USERNAME.github.io/PROJECT:  <br />
+  Create a repository with whatever name you’d like, ie “myblog”</p>
+      </li>
+      <li>
+        <p>If you want to use your own domain name, you can use any of the previous methods</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Go to your workspace (container, vm, laptop…)</p>
 
-<pre><code>#Clone the skeleton of the blog   
-git clone https://github.com/plusjade/jekyll-bootstrap.git myblog   
-cd myblog   
-#Change the origin   
-git remote set-url origin git@github.com:USERNAME/myblog.git   
-#Create an orphan branch   
-git checkout --orphan gh-pages
+    <pre><code>  #Clone the skeleton of the blog   
+  git clone https://github.com/plusjade/jekyll-bootstrap.git myblog   
+  cd myblog   
+  #Change the origin   
+  git remote set-url origin git@github.com:USERNAME/myblog.git   
+  #Create an orphan branch   
+  git checkout --orphan gh-pages
 </code></pre>
+  </li>
+</ul>
 
 <h3 id="blog">Blog</h3>
 
@@ -189,12 +207,50 @@ git checkout --orphan gh-pages
     <p>First, remove examples posts from skeleton</p>
 
     <pre><code>  rm -Rf _posts/core-samples/
+  rm -f _drafts/*
 </code></pre>
   </li>
   <li>
     <p>Custom domain</p>
 
-    <p>TODO</p>
+    <ul>
+      <li>Case url type: https://USERNAME.github.io
+        <ul>
+          <li>Your github repo is named USERNAME.github.io</li>
+          <li>
+            <p>Modify the _config.yml accordingly:</p>
+
+            <pre><code>     production_url : https://USERNAME.github.io 
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>Case url type: https://USERNAME.github.io/REPO_NAME
+        <ul>
+          <li>Your github repo is named REPO_NAME</li>
+          <li>
+            <p>Modify the _config.yml accordingly:</p>
+
+            <pre><code>     production_url : https://USERNAME.github.io/REPO_NAME 
+     BASE_PATH : https://USERNAME.github.io/REPO_NAME
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>Case url type: https://yourblog.yourdomain.tld
+        <ul>
+          <li>Your github repo is named REPO_NAME</li>
+          <li>
+            <p>Modify the _config.yml accordingly:</p>
+
+            <pre><code>     production_url : https://yourblog.yourdomain.tld
+</code></pre>
+          </li>
+          <li>Create a file called CNAME with a content like this: <br />
+  TODO</li>
+        </ul>
+      </li>
+    </ul>
   </li>
   <li>
     <p>Config</p>
@@ -244,10 +300,10 @@ git checkout --orphan gh-pages
 
     <pre><code>  &lt;h2 class="entry-title"&gt;
   {% if page.title %}
-      &lt;a href="{{ root_url }}{{ page.url }}"&gt;{{ page.title }}&lt;/a&gt;
+      &lt;a href="{{ BASE_PATH }}{{ page.url }}"&gt;{{ page.title }}&lt;/a&gt;
   {% endif %}
   {% if post.title %}
-      &lt;a href="{{ root_url }}{{ post.url }}"&gt;{{ post.title }}&lt;/a&gt;
+      &lt;a href="{{ BASE_PATH }}{{ post.url }}"&gt;{{ post.title }}&lt;/a&gt;
   {% endif %}
   &lt;/h2&gt;
   &lt;div class="entry-content"&gt;{{ content }}&lt;/div&gt;
@@ -268,14 +324,47 @@ git checkout --orphan gh-pages
 <h2 id="usage">Usage</h2>
 
 <ul>
-  <li>Create a post: <br />
-  TODO</li>
-  <li>Create a Draft:  <br />
-  TODO</li>
-  <li>Publish a draft without plugin T_T: <br />
-  TODO</li>
-  <li>Change Theme:  <br />
-  TODO</li>
+  <li>
+    <p>Change Theme:</p>
+
+    <pre><code>  rake theme:switch name="twitter"
+</code></pre>
+  </li>
+  <li>
+    <p>Create a post:</p>
+
+    <pre><code>  rake2.1 post title="Create a blog hosted on Github with Jekyll"
+</code></pre>
+  </li>
+  <li>
+    <p>Create a Draft:</p>
+
+    <pre><code>  vi _DRAFTS/newdraft.md
+</code></pre>
+  </li>
+  <li>
+    <p>Publish a draft without plugin T_T (because github pages do not support plugins):</p>
+
+    <pre><code>  rake2.1 post title="newpost"   
+  cat _DRAFTS/draft_to_publish &gt;&gt; _POSTS/newpost.md   
+  rm  _DRAFTS/draft_to_publish   
+</code></pre>
+  </li>
+  <li>
+    <p>See changes locally:</p>
+
+    <pre><code>  jekyll serve --host 0.0.0.0
+</code></pre>
+
+    <ul>
+      <li>
+        <p>Also display drafts:</p>
+
+        <pre><code>  jekyll serve --host 0.0.0.0 --drafts
+</code></pre>
+      </li>
+    </ul>
+  </li>
 </ul>
 
 <p>sources:  <br />

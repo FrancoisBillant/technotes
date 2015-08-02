@@ -5,8 +5,8 @@
         <description>Technical Notes - Francois Billant</description>
         <link>https://francoisbillant.github.io/technotes</link>
         <atom:link href="https://francoisbillant.github.io/technotes/rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Sun, 02 Aug 2015 18:50:32 +0000</lastBuildDate>
-        <pubDate>Sun, 02 Aug 2015 18:50:32 +0000</pubDate>
+        <lastBuildDate>Sun, 02 Aug 2015 20:10:20 +0000</lastBuildDate>
+        <pubDate>Sun, 02 Aug 2015 20:10:20 +0000</pubDate>
         <ttl>60</ttl>
 
 
@@ -60,17 +60,35 @@ docker attach jekyll
 
 &lt;h3 id=&quot;github&quot;&gt;Github&lt;/h3&gt;
 
-&lt;p&gt;Create a new repository with whatever name you’d like, ie “myblog” &lt;br /&gt;
-Go to your workspace (container, vm, laptop…)&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Create a new repository
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;If you want your site url to be: https://USERNAME.github.io:  &lt;br /&gt;
+  Create a repository called USERNAME.github.io where USERNAME is your github username.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;If you want your site url to be https://USERNAME.github.io/PROJECT:  &lt;br /&gt;
+  Create a repository with whatever name you’d like, ie “myblog”&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;If you want to use your own domain name, you can use any of the previous methods&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Go to your workspace (container, vm, laptop…)&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;#Clone the skeleton of the blog   
-git clone https://github.com/plusjade/jekyll-bootstrap.git myblog   
-cd myblog   
-#Change the origin   
-git remote set-url origin git@github.com:USERNAME/myblog.git   
-#Create an orphan branch   
-git checkout --orphan gh-pages
+    &lt;pre&gt;&lt;code&gt;  #Clone the skeleton of the blog   
+  git clone https://github.com/plusjade/jekyll-bootstrap.git myblog   
+  cd myblog   
+  #Change the origin   
+  git remote set-url origin git@github.com:USERNAME/myblog.git   
+  #Create an orphan branch   
+  git checkout --orphan gh-pages
 &lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h3 id=&quot;blog&quot;&gt;Blog&lt;/h3&gt;
 
@@ -81,12 +99,50 @@ git checkout --orphan gh-pages
     &lt;p&gt;First, remove examples posts from skeleton&lt;/p&gt;
 
     &lt;pre&gt;&lt;code&gt;  rm -Rf _posts/core-samples/
+  rm -f _drafts/*
 &lt;/code&gt;&lt;/pre&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Custom domain&lt;/p&gt;
 
-    &lt;p&gt;TODO&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Case url type: https://USERNAME.github.io
+        &lt;ul&gt;
+          &lt;li&gt;Your github repo is named USERNAME.github.io&lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;Modify the _config.yml accordingly:&lt;/p&gt;
+
+            &lt;pre&gt;&lt;code&gt;     production_url : https://USERNAME.github.io 
+&lt;/code&gt;&lt;/pre&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Case url type: https://USERNAME.github.io/REPO_NAME
+        &lt;ul&gt;
+          &lt;li&gt;Your github repo is named REPO_NAME&lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;Modify the _config.yml accordingly:&lt;/p&gt;
+
+            &lt;pre&gt;&lt;code&gt;     production_url : https://USERNAME.github.io/REPO_NAME 
+     BASE_PATH : https://USERNAME.github.io/REPO_NAME
+&lt;/code&gt;&lt;/pre&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Case url type: https://yourblog.yourdomain.tld
+        &lt;ul&gt;
+          &lt;li&gt;Your github repo is named REPO_NAME&lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;Modify the _config.yml accordingly:&lt;/p&gt;
+
+            &lt;pre&gt;&lt;code&gt;     production_url : https://yourblog.yourdomain.tld
+&lt;/code&gt;&lt;/pre&gt;
+          &lt;/li&gt;
+          &lt;li&gt;Create a file called CNAME with a content like this: &lt;br /&gt;
+  TODO&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Config&lt;/p&gt;
@@ -136,10 +192,10 @@ git checkout --orphan gh-pages
 
     &lt;pre&gt;&lt;code&gt;  &amp;lt;h2 class=&quot;entry-title&quot;&amp;gt;
   {% if page.title %}
-      &amp;lt;a href=&quot;{{ root_url }}{{ page.url }}&quot;&amp;gt;{{ page.title }}&amp;lt;/a&amp;gt;
+      &amp;lt;a href=&quot;{{ BASE_PATH }}{{ page.url }}&quot;&amp;gt;{{ page.title }}&amp;lt;/a&amp;gt;
   {% endif %}
   {% if post.title %}
-      &amp;lt;a href=&quot;{{ root_url }}{{ post.url }}&quot;&amp;gt;{{ post.title }}&amp;lt;/a&amp;gt;
+      &amp;lt;a href=&quot;{{ BASE_PATH }}{{ post.url }}&quot;&amp;gt;{{ post.title }}&amp;lt;/a&amp;gt;
   {% endif %}
   &amp;lt;/h2&amp;gt;
   &amp;lt;div class=&quot;entry-content&quot;&amp;gt;{{ content }}&amp;lt;/div&amp;gt;
@@ -160,14 +216,47 @@ git checkout --orphan gh-pages
 &lt;h2 id=&quot;usage&quot;&gt;Usage&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Create a post: &lt;br /&gt;
-  TODO&lt;/li&gt;
-  &lt;li&gt;Create a Draft:  &lt;br /&gt;
-  TODO&lt;/li&gt;
-  &lt;li&gt;Publish a draft without plugin T_T: &lt;br /&gt;
-  TODO&lt;/li&gt;
-  &lt;li&gt;Change Theme:  &lt;br /&gt;
-  TODO&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Change Theme:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  rake theme:switch name=&quot;twitter&quot;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create a post:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  rake2.1 post title=&quot;Create a blog hosted on Github with Jekyll&quot;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create a Draft:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  vi _DRAFTS/newdraft.md
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Publish a draft without plugin T_T (because github pages do not support plugins):&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  rake2.1 post title=&quot;newpost&quot;   
+  cat _DRAFTS/draft_to_publish &amp;gt;&amp;gt; _POSTS/newpost.md   
+  rm  _DRAFTS/draft_to_publish   
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;See changes locally:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  jekyll serve --host 0.0.0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;Also display drafts:&lt;/p&gt;
+
+        &lt;pre&gt;&lt;code&gt;  jekyll serve --host 0.0.0.0 --drafts
+&lt;/code&gt;&lt;/pre&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;sources:  &lt;br /&gt;
