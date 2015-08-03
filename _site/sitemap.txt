@@ -1,12 +1,12 @@
 
-https://francoisbillant.github.io/technotes/archive.html
-https://francoisbillant.github.io/technotes/atom.xml
-https://francoisbillant.github.io/technotes/categories.html
-https://francoisbillant.github.io/technotes/index.html
-https://francoisbillant.github.io/technotes/pages.html
-https://francoisbillant.github.io/technotes/rss.xml
-https://francoisbillant.github.io/technotes/sitemap.txt
-https://francoisbillant.github.io/technotes/tags.html
+https://technotes.billant.bzh/archive.html
+https://technotes.billant.bzh/atom.xml
+https://technotes.billant.bzh/categories.html
+https://technotes.billant.bzh/index.html
+https://technotes.billant.bzh/pages.html
+https://technotes.billant.bzh/rss.xml
+https://technotes.billant.bzh/sitemap.txt
+https://technotes.billant.bzh/tags.html
 
-https://francoisbillant.github.io/technotes/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm
-https://francoisbillant.github.io/technotes/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll
+https://technotes.billant.bzh/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm
+https://technotes.billant.bzh/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll

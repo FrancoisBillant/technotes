@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
  
  <title>Technical Notes</title>
- <link href="https://francoisbillant.github.io/technotes/atom.xml" rel="self"/>
- <link href="https://francoisbillant.github.io/technotes"/>
- <updated>2015-08-02T20:10:20+00:00</updated>
- <id>https://francoisbillant.github.io/technotes</id>
+ <link href="https://technotes.billant.bzh/atom.xml" rel="self"/>
+ <link href="https://technotes.billant.bzh"/>
+ <updated>2015-08-03T14:30:31+00:00</updated>
+ <id>https://technotes.billant.bzh</id>
  <author>
    <name>Francois Billant</name>
    <email>fbillant@gmail.com</email>
@@ -14,18 +14,18 @@
  
  <entry>
    <title>Playing with Ansible, Iptables, docker and KVM</title>
-   <link href="https://francoisbillant.github.io/technotes/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm"/>
+   <link href="https://technotes.billant.bzh/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm"/>
    <updated>2015-08-01T18:55:56+00:00</updated>
-   <id>https://francoisbillant.github.io/technotes/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</id>
+   <id>https://technotes.billant.bzh/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</id>
    <content type="html">
 </content>
  </entry>
  
  <entry>
    <title>Create a blog hosted on Github with Jekyll</title>
-   <link href="https://francoisbillant.github.io/technotes/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll"/>
+   <link href="https://technotes.billant.bzh/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll"/>
    <updated>2015-08-01T00:00:00+00:00</updated>
-   <id>https://francoisbillant.github.io/technotes/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll</id>
+   <id>https://technotes.billant.bzh/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll</id>
    <content type="html">
 &lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
@@ -209,12 +209,14 @@ docker attach jekyll
   &lt;li&gt;
     &lt;p&gt;Create a post&lt;/p&gt;
 
-    &lt;p&gt;TODO&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  rake2.1 post title=&quot;Create a blog hosted on Github with Jekyll&quot;
+&lt;/code&gt;&lt;/pre&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Publish&lt;/p&gt;
 
-    &lt;p&gt;TODO&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  git push origin gh-pages
+&lt;/code&gt;&lt;/pre&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
