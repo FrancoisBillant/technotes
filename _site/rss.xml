@@ -5,8 +5,8 @@
         <description>Technical Notes - Francois Billant</description>
         <link>https://technotes.billant.bzh</link>
         <atom:link href="https://technotes.billant.bzh/rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Wed, 05 Aug 2015 13:22:37 +0000</lastBuildDate>
-        <pubDate>Wed, 05 Aug 2015 13:22:37 +0000</pubDate>
+        <lastBuildDate>Wed, 05 Aug 2015 13:25:59 +0000</lastBuildDate>
+        <pubDate>Wed, 05 Aug 2015 13:25:59 +0000</pubDate>
         <ttl>60</ttl>
 
 
@@ -141,8 +141,10 @@ docker attach jekyll
           &lt;li&gt;Create a file called CNAME with a content like this: &lt;br /&gt;
          yourblog.yourdomain.tld&lt;/li&gt;
           &lt;li&gt;Edit your DNS provider configuration to point to your github pages. &lt;br /&gt;
-  There’re several options for this which are detailed here: &lt;a href=&quot;https://help.github.com/articles/about-custom-domains-for-github-pages-sites/&quot;&gt;https://help.github.com/articles/about-custom-domains-for-github-pages-sites/&lt;/a&gt;
-  For me, using 1&amp;amp;1 as a domain provider (a pretty bad one IMHO, i wouldn’t recommend it), I set up the only A record that I can edit to point to “192.30.252.153” (or “192.30.252.153”) as stated here: &lt;a href=&quot;https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/&quot;&gt;https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/&lt;/a&gt;
+  There’re several options for this which are detailed here: &lt;br /&gt;
+  &lt;a href=&quot;https://help.github.com/articles/about-custom-domains-for-github-pages-sites/&quot;&gt;https://help.github.com/articles/about-custom-domains-for-github-pages-sites/&lt;/a&gt; &lt;br /&gt;
+  For me, using 1&amp;amp;1 as a domain provider (a pretty bad one IMHO, i wouldn’t recommend it), I set up the only A record that I can edit to point to “192.30.252.153” (or “192.30.252.153”) as stated here: &lt;br /&gt;
+  &lt;a href=&quot;https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/&quot;&gt;https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/&lt;/a&gt; &lt;br /&gt;
   So thanks to this poor configuration options, I loose DNS HA and load balancing… thanks 1&amp;amp;1… &amp;gt;_&amp;lt;”&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
