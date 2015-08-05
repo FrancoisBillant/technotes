@@ -4,7 +4,7 @@
  <title>Technical Notes</title>
  <link href="https://technotes.billant.bzh/atom.xml" rel="self"/>
  <link href="https://technotes.billant.bzh"/>
- <updated>2015-08-03T14:30:31+00:00</updated>
+ <updated>2015-08-05T13:22:37+00:00</updated>
  <id>https://technotes.billant.bzh</id>
  <author>
    <name>Francois Billant</name>
@@ -144,7 +144,11 @@ docker attach jekyll
 &lt;/code&gt;&lt;/pre&gt;
           &lt;/li&gt;
           &lt;li&gt;Create a file called CNAME with a content like this: &lt;br /&gt;
-  TODO&lt;/li&gt;
+         yourblog.yourdomain.tld&lt;/li&gt;
+          &lt;li&gt;Edit your DNS provider configuration to point to your github pages. &lt;br /&gt;
+  There’re several options for this which are detailed here: &lt;a href=&quot;https://help.github.com/articles/about-custom-domains-for-github-pages-sites/&quot;&gt;https://help.github.com/articles/about-custom-domains-for-github-pages-sites/&lt;/a&gt;
+  For me, using 1&amp;amp;1 as a domain provider (a pretty bad one IMHO, i wouldn’t recommend it), I set up the only A record that I can edit to point to “192.30.252.153” (or “192.30.252.153”) as stated here: &lt;a href=&quot;https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/&quot;&gt;https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/&lt;/a&gt;
+  So thanks to this poor configuration options, I loose DNS HA and load balancing… thanks 1&amp;amp;1… &amp;gt;_&amp;lt;”&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
