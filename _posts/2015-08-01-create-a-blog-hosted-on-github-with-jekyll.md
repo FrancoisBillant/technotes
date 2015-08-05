@@ -87,8 +87,10 @@ Otherwise, look at the Dockerfile for the install process ;) [https://github.com
         - Create a file called CNAME with a content like this:   
                    yourblog.yourdomain.tld
         - Edit your DNS provider configuration to point to your github pages.   
-            There're several options for this which are detailed here: [https://help.github.com/articles/about-custom-domains-for-github-pages-sites/](https://help.github.com/articles/about-custom-domains-for-github-pages-sites/)
-            For me, using 1&1 as a domain provider (a pretty bad one IMHO, i wouldn't recommend it), I set up the only A record that I can edit to point to "192.30.252.153" (or "192.30.252.153") as stated here: [https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/](https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/)
+            There're several options for this which are detailed here:   
+            [https://help.github.com/articles/about-custom-domains-for-github-pages-sites/](https://help.github.com/articles/about-custom-domains-for-github-pages-sites/)   
+            For me, using 1&1 as a domain provider (a pretty bad one IMHO, i wouldn't recommend it), I set up the only A record that I can edit to point to "192.30.252.153" (or "192.30.252.153") as stated here:   
+            [https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/](https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/)   
             So thanks to this poor configuration options, I loose DNS HA and load balancing... thanks 1&1... >_<" 
 
 
