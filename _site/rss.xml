@@ -5,18 +5,237 @@
         <description>Technical Notes - Francois Billant</description>
         <link>https://technotes.billant.bzh</link>
         <atom:link href="https://technotes.billant.bzh/rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Wed, 05 Aug 2015 13:25:59 +0000</lastBuildDate>
-        <pubDate>Wed, 05 Aug 2015 13:25:59 +0000</pubDate>
+        <lastBuildDate>Thu, 06 Aug 2015 21:41:06 +0000</lastBuildDate>
+        <pubDate>Thu, 06 Aug 2015 21:41:06 +0000</pubDate>
         <ttl>60</ttl>
 
 
         <item>
+                <title>Managing Iptables with Ansible</title>
+                <description>
+&lt;h2 id=&quot;overiew&quot;&gt;Overiew&lt;/h2&gt;
+&lt;p&gt;First, I am no network expert, so please bare with me or help improve ;)  &lt;br /&gt;
+The idea here is to manage an iptables firewal “as a code” by using Ansible as a CMS*.&lt;/p&gt;
+
+&lt;p&gt;To do so, i will use &lt;a href=&quot;http://ferm.foo-projects.org/&quot;&gt;Ferm&lt;/a&gt; which provide an abstraction over Iptables for a nice rules management. (For information about why I chose this, see &lt;a href=&quot;/howto/docker/kvm/2015/08/03/playing-with-ansible-iptables-docker-and-kvm/&quot;&gt;here&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;*Configuration Management System&lt;/p&gt;
+
+&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;An Ansible workstation (ie &lt;a href=&quot;https://registry.hub.docker.com/u/ansible/ubuntu14.04-ansible/&quot;&gt;ansible container&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;A target server (tested on debian jessie)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;details&quot;&gt;Details&lt;/h2&gt;
+&lt;p&gt;After trying a bit, i ended up with a playbook looking like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;|-site.yml
+|-base.yml
+|-roles/
+    |-base
+        |-tasks
+            |-main.yml
+            |-users.yml
+            |-tmux.yml
+            |-vim.yml
+            |-iptables.yml
+        |-handlers
+            |-main.yml
+        |-files
+            |-etc
+                |-ferm
+                    |-ferm.conf
+        |-vars
+            |-creds.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It begins with the file &lt;code&gt;site.yml&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- name: apply common configuration to all nodes
+  hosts: all
+  include: base.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can see that it &lt;code&gt;include: base.yml&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- hosts: all
+  remote_user: root
+  roles:
+    - base
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let’s look at the role that is called here &lt;code&gt;roles/base/tasks/main.yml&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- include_vars: creds.yml
+- include: users.yml
+- include: vim.yml
+- include: tmux.yml
+- include: iptables.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The last line call the file &lt;code&gt;roles/base/tasks/iptables.yml&lt;/code&gt; which contain the actual plays:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;---
+- name: Install ferm
+  apt:
+    name=ferm
+    state=present
+
+- name: Add ferm config directory
+  file:
+    path=/etc/ferm
+    state=directory
+    owner=root group=root mode=0700
+
+- name: Add ferm config directory for additional config files
+  file:
+    path=/etc/ferm/ferm.d
+    state=directory
+    owner=root group=root mode=0700
+
+- name: Upload config
+  copy:
+    dest=/etc/ferm/ferm.conf
+    src=etc/ferm/ferm.conf
+    owner=root group=root mode=0700
+  notify:
+    - restart ferm
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As always, I think the yaml content speaks for itself. &lt;br /&gt;
+The last play (“Upload config”) copy onto the target the Ferm configuration file that can be found in &lt;code&gt;roles/base/files/etc/ferm/ferm.conf&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# ferm basic configuration.
+
+table filter {
+    chain INPUT {
+        policy DROP;
+
+        # connection tracking
+        mod state {
+            state INVALID DROP;
+            state (RELATED ESTABLISHED) ACCEPT;
+        }
+
+        # allow local connections
+        interface lo ACCEPT;
+
+        # respond to ping
+        proto icmp ACCEPT;
+
+        # allow SSH connections
+        proto tcp dport ssh ACCEPT;
+    }
+
+    # outgoing connections are not limited
+    chain OUTPUT {
+        policy ACCEPT;
+
+        # connection tracking
+        mod state {
+            state INVALID DROP;
+            state (RELATED ESTABLISHED) ACCEPT;
+        }
+    }
+
+    # this is not a router
+    chain FORWARD {
+        policy DROP;
+
+        # connection tracking
+        mod state {
+            state INVALID DROP;
+            state (RELATED ESTABLISHED) ACCEPT;
+        }
+    }
+}
+
+@include &#39;ferm.d/&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This a very basic configuration that let everything out, nothing in except ssh on port 22 and nothing to be forwarded. &lt;br /&gt;
+See &lt;a href=&quot;http://ferm.foo-projects.org/download/2.2/ferm.html&quot;&gt;Ferm documentation&lt;/a&gt; for details about ferm.conf.&lt;/p&gt;
+
+&lt;p&gt;Note the last line that will include every files in the /etc/ferm/ferm.d directory.  &lt;br /&gt;
+I will use this so that every application or role can deploys its own sets of iptables rules by copying the appropriate file in this directory. &lt;br /&gt;
+I will show and example in the next post.&lt;/p&gt;
+
+&lt;p&gt;Then the playbook can be run with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ansible-playbook -i inventory_file site.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you do not use a key based authentication and need to manually provide the password, you can pass the &lt;code&gt;--ask-pass&lt;/code&gt; parameter.&lt;/p&gt;
+</description>
+                <link>https://technotes.billant.bzh/howto/2015/08/06/managing-iptables-with-ansible</link>
+                <guid>https://technotes.billant.bzh/howto/2015/08/06/managing-iptables-with-ansible</guid>
+                <pubDate>Thu, 06 Aug 2015 00:00:00 +0000</pubDate>
+        </item>
+
+        <item>
                 <title>Playing with Ansible, Iptables, docker and KVM</title>
                 <description>
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;So I rented myself a box as a sandbox. &lt;br /&gt;
+Because I do not want to manage “pets” anymore, for starter I want my server to be managed as a code from the ground. Since I already used a little puppet and chef, I though I would use the chance to try and play with Ansible.&lt;/p&gt;
+
+&lt;p&gt;Another thing is I hate Docker !!! Because since I started using it more than 1 year ago now, I find dealing with non-containerized applications and environments to be a pain in the back…. &lt;br /&gt;
+So like on my latptop/desktop, the idea is to put a Debian on baremetal then, install the less applications possible in the system and put everything needed into containers.&lt;/p&gt;
+
+&lt;p&gt;The last thing is that I need VMs, so i will use KVM, but I also might use docker on the baremetal machine (in addition of inside some of the VMs…). &lt;br /&gt;
+So here is a representation of what I would like to build:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/homelab.png&quot; alt=&quot;Basic Config&quot; title=&quot;Basic Config&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;An ansible installation. It can be you laptop, a VM or a container.
+  There are 2 officials Ansible images on the dockerhub, an ubuntu based and a centos based: &lt;br /&gt;
+  &lt;a href=&quot;https://registry.hub.docker.com/u/ansible/ubuntu14.04-ansible/&quot;&gt;Ansible ubuntu based docker image&lt;/a&gt; &lt;br /&gt;
+  &lt;a href=&quot;https://registry.hub.docker.com/u/ansible/centos7-ansible/&quot;&gt;Ansible centos based docker image&lt;/a&gt;&lt;/p&gt;
+
+    &lt;p&gt;You can run it with:
+      docker run -dti –name ansible -v ~/ansible:/root/share francois/ansible:latest /bin/bash
+      docker attach ansible&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;details&quot;&gt;Details&lt;/h2&gt;
+&lt;p&gt;So first thing first, let see how ansible can deal with iptables.&lt;/p&gt;
+
+&lt;h3 id=&quot;iptables&quot;&gt;Iptables&lt;/h3&gt;
+&lt;p&gt;After quite a bit of reading, it seems that managing Iptables with ansible is mainly done by choosing one of this three alternatives:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Managing an iptable.rules file by parsing line by line for content and filter with regex. &lt;br /&gt;
+  It seems to me that this method could become quite a pain as the file grows.&lt;/li&gt;
+  &lt;li&gt;Ansible galaxy role: &lt;a href=&quot;https://galaxy.ansible.com/list#/roles/920&quot;&gt;stout.iptables&lt;/a&gt; &lt;br /&gt;
+  I tried out this one. Very straightforward at first.
+  But as i tried to implement the rest of the config (kvm, docker…) it didn’t seems to be a good match, possibly (probably?!) because of my lack of knowledge of the Ansible tool and how to use it best…&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Installing &lt;a href=&quot;http://ferm.foo-projects.org/&quot;&gt;ferm&lt;/a&gt; on the host, and using Ansible to manage ferm/iptables configurations
+  At first, I didn’t want to use this method because it was forcing me to install ferm on the host. Why the hell should I install an additionnal application to be able to manage my firewall as a code…&lt;/p&gt;
+
+    &lt;p&gt;Well, I end up trying because the more read about it, the more it seemed a good fit to the purpose I was trying to achieve. &lt;br /&gt;
+  And indeed, it is.&lt;/p&gt;
+
+    &lt;p&gt;So I will use Ansible to manage Iptables through Ferm.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/howto/2015/08/06/managing-iptables-with-ansible/&quot;&gt;How To&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;kvm&quot;&gt;KVM&lt;/h3&gt;
+&lt;p&gt;TODO&lt;/p&gt;
+
+&lt;h3 id=&quot;docker&quot;&gt;Docker&lt;/h3&gt;
+&lt;p&gt;TODO&lt;/p&gt;
 </description>
-                <link>https://technotes.billant.bzh/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</link>
-                <guid>https://technotes.billant.bzh/2015/08/01/2015-08-01-playing-with-ansible-iptables-docker-and-kvm</guid>
-                <pubDate>Sat, 01 Aug 2015 18:55:56 +0000</pubDate>
+                <link>https://technotes.billant.bzh/howto/docker/kvm/2015/08/03/playing-with-ansible-iptables-docker-and-kvm</link>
+                <guid>https://technotes.billant.bzh/howto/docker/kvm/2015/08/03/playing-with-ansible-iptables-docker-and-kvm</guid>
+                <pubDate>Mon, 03 Aug 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>

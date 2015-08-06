@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Playing with Ansible, Iptables, docker and KVM</title>
+    <meta name="description" content="">
+    <meta name="author" content="Francois Billant">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">Technical Notes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>Playing with Ansible, Iptables, docker and KVM </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>03 August 2015</span>
+    </div>
+    <div class="content">
+      
+<h2 id="overview">Overview</h2>
+<p>So I rented myself a box as a sandbox. <br />
+Because I do not want to manage “pets” anymore, for starter I want my server to be managed as a code from the ground. Since I already used a little puppet and chef, I though I would use the chance to try and play with Ansible.</p>
+
+<p>Another thing is I hate Docker !!! Because since I started using it more than 1 year ago now, I find dealing with non-containerized applications and environments to be a pain in the back…. <br />
+So like on my latptop/desktop, the idea is to put a Debian on baremetal then, install the less applications possible in the system and put everything needed into containers.</p>
+
+<p>The last thing is that I need VMs, so i will use KVM, but I also might use docker on the baremetal machine (in addition of inside some of the VMs…). <br />
+So here is a representation of what I would like to build:</p>
+
+<p><img src="/assets/images/homelab.png" alt="Basic Config" title="Basic Config" /></p>
+
+<h2 id="requirements">Requirements</h2>
+<ul>
+  <li>
+    <p>An ansible installation. It can be you laptop, a VM or a container.
+  There are 2 officials Ansible images on the dockerhub, an ubuntu based and a centos based: <br />
+  <a href="https://registry.hub.docker.com/u/ansible/ubuntu14.04-ansible/">Ansible ubuntu based docker image</a> <br />
+  <a href="https://registry.hub.docker.com/u/ansible/centos7-ansible/">Ansible centos based docker image</a></p>
+
+    <p>You can run it with:
+      docker run -dti –name ansible -v ~/ansible:/root/share francois/ansible:latest /bin/bash
+      docker attach ansible</p>
+  </li>
+</ul>
+
+<h2 id="details">Details</h2>
+<p>So first thing first, let see how ansible can deal with iptables.</p>
+
+<h3 id="iptables">Iptables</h3>
+<p>After quite a bit of reading, it seems that managing Iptables with ansible is mainly done by choosing one of this three alternatives:</p>
+
+<ul>
+  <li>Managing an iptable.rules file by parsing line by line for content and filter with regex. <br />
+  It seems to me that this method could become quite a pain as the file grows.</li>
+  <li>Ansible galaxy role: <a href="https://galaxy.ansible.com/list#/roles/920">stout.iptables</a> <br />
+  I tried out this one. Very straightforward at first.
+  But as i tried to implement the rest of the config (kvm, docker…) it didn’t seems to be a good match, possibly (probably?!) because of my lack of knowledge of the Ansible tool and how to use it best…</li>
+  <li>
+    <p>Installing <a href="http://ferm.foo-projects.org/">ferm</a> on the host, and using Ansible to manage ferm/iptables configurations
+  At first, I didn’t want to use this method because it was forcing me to install ferm on the host. Why the hell should I install an additionnal application to be able to manage my firewall as a code…</p>
+
+    <p>Well, I end up trying because the more read about it, the more it seemed a good fit to the purpose I was trying to achieve. <br />
+  And indeed, it is.</p>
+
+    <p>So I will use Ansible to manage Iptables through Ferm.</p>
+
+    <p><a href="/howto/2015/08/06/managing-iptables-with-ansible/">How To</a></p>
+  </li>
+</ul>
+
+<h3 id="kvm">KVM</h3>
+<p>TODO</p>
+
+<h3 id="docker">Docker</h3>
+<p>TODO</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#howto-ref">
+    		howto <span>3</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#docker-ref">
+    		docker <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#kvm-ref">
+    		kvm <span>1</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#howto-ref">howto <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#ansible-ref">ansible <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#iptables-ref">iptables <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#docker-ref">docker <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#kvm-ref">kvm <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#libvirti-ref">libvirti <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#homelab-ref">homelab <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll" title="Create a blog hosted on Github with Jekyll">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/howto/2015/08/06/managing-iptables-with-ansible" title="Managing Iptables with Ansible">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    
+    var disqus_developer = 1;
+    var disqus_shortname = 'technotesbillantbzh'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2015 Francois Billant
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+
+
+
+  </body>
+</html>
+
