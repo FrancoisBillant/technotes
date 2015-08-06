@@ -48,7 +48,7 @@ After quite a bit of reading, it seems that managing Iptables with ansible is ma
 
     So I will use Ansible to manage Iptables through Ferm.
 
-    [How To](/howto/2015/08/06/managing-iptables-with-ansible/)
+    [How To](/howto/ansible/2015/08/06/managing-iptables-with-ansible/)
 
 ###KVM
 TODO
