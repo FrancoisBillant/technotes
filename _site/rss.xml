@@ -5,8 +5,8 @@
         <description>Technical Notes - Francois Billant</description>
         <link>https://technotes.billant.bzh</link>
         <atom:link href="https://technotes.billant.bzh/rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Thu, 06 Aug 2015 21:44:51 +0000</lastBuildDate>
-        <pubDate>Thu, 06 Aug 2015 21:44:51 +0000</pubDate>
+        <lastBuildDate>Thu, 06 Aug 2015 21:48:42 +0000</lastBuildDate>
+        <pubDate>Thu, 06 Aug 2015 21:48:42 +0000</pubDate>
         <ttl>60</ttl>
 
 
@@ -17,7 +17,7 @@
 &lt;p&gt;First, I am no network expert, so please bare with me or help improve ;)  &lt;br /&gt;
 The idea here is to manage an iptables firewal “as a code” by using Ansible as a CMS*.&lt;/p&gt;
 
-&lt;p&gt;To do so, i will use &lt;a href=&quot;http://ferm.foo-projects.org/&quot;&gt;Ferm&lt;/a&gt; which provide an abstraction over Iptables for a nice rules management. (For information about why I chose this, see &lt;a href=&quot;/howto/docker/kvm/2015/08/03/playing-with-ansible-iptables-docker-and-kvm/&quot;&gt;here&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;To do so, i will use &lt;a href=&quot;http://ferm.foo-projects.org/&quot;&gt;Ferm&lt;/a&gt; which provide an abstraction over Iptables for a nice rules management. (For information about why I chose this, see &lt;a href=&quot;http://technotes.billant.bzh/howto/docker/kvm/ansible/2015/08/03/playing-with-ansible-iptables-docker-and-kvm/&quot;&gt;here&lt;/a&gt;)&lt;/p&gt;
 
 &lt;p&gt;*Configuration Management System&lt;/p&gt;
 

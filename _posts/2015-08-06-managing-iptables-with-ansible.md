@@ -11,7 +11,7 @@ tags: [howto, ansible, iptables, ferm]
 First, I am no network expert, so please bare with me or help improve ;)    
 The idea here is to manage an iptables firewal "as a code" by using Ansible as a CMS*.   
 
-To do so, i will use [Ferm](http://ferm.foo-projects.org/) which provide an abstraction over Iptables for a nice rules management. (For information about why I chose this, see [here](/howto/docker/kvm/2015/08/03/playing-with-ansible-iptables-docker-and-kvm/))
+To do so, i will use [Ferm](http://ferm.foo-projects.org/) which provide an abstraction over Iptables for a nice rules management. (For information about why I chose this, see [here](http://technotes.billant.bzh/howto/docker/kvm/ansible/2015/08/03/playing-with-ansible-iptables-docker-and-kvm/))
 
 
 *Configuration Management System
