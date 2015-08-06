@@ -2,8 +2,8 @@
 layout: post
 title: "Playing with Ansible, Iptables, docker and KVM"
 description: ""
-category: [howto, docker, kvm]
-tags: [howto, ansible, iptables, docker, kvm, libvirti, homelab]
+category: [howto, docker, kvm, ansible]
+tags: [howto, ansible, iptables, docker, kvm, libvirt, homelab]
 ---
 {% include JB/setup %}
 

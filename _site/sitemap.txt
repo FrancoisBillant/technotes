@@ -8,6 +8,6 @@ https://technotes.billant.bzh/rss.xml
 https://technotes.billant.bzh/sitemap.txt
 https://technotes.billant.bzh/tags.html
 
-https://technotes.billant.bzh/howto/2015/08/06/managing-iptables-with-ansible
-https://technotes.billant.bzh/howto/docker/kvm/2015/08/03/playing-with-ansible-iptables-docker-and-kvm
+https://technotes.billant.bzh/howto/ansible/2015/08/06/managing-iptables-with-ansible
+https://technotes.billant.bzh/howto/docker/kvm/ansible/2015/08/03/playing-with-ansible-iptables-docker-and-kvm
 https://technotes.billant.bzh/howto/2015/08/01/create-a-blog-hosted-on-github-with-jekyll

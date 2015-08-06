@@ -2,7 +2,7 @@
 layout: post
 title: "Managing Iptables with Ansible"
 description: "How to manage Iptables with Ansible using Ferm"
-category: [howto]
+category: [howto, ansible]
 tags: [howto, ansible, iptables, ferm]
 ---
 {% include JB/setup %}
